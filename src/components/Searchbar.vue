@@ -31,7 +31,7 @@ defineExpose({
     />
 
     <button
-      class="bg-orange-600 w-1/6 ml-5 rounded-md text-white font-bold"
+      class="bg-orange-600 px-4 md:p-0  sm:w-1/6 md:max-w-1/6  ml-5 rounded-md text-white font-bold"
       @click="searchCity"
     >
       Rechercher

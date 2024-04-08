@@ -144,7 +144,7 @@ body {
 .app {
   background-image: url("assets/cold.jpg");
   background-size: cover;
-  background-position: bottom;
+  background-position: center;
   transition: 0.2s;
   height: 100%;
 }
