@@ -27,6 +27,7 @@ defineExpose({
       type="text"
       class="search-input"
       v-model="queryStr"
+      placeholder="Rechercher par ville"
       @keydown="searchCityWithEnter"
     />
 
@@ -54,6 +55,15 @@ defineExpose({
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   transition: 0.4s;
+}
+
+::placeholder {
+  color: black;
+  opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder { /* Edge 12-18 */
+  color: black;
 }
 
 .search-input:focus {
