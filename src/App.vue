@@ -5,7 +5,7 @@
         {{ WELCOME_TITLE }}
       </h4>
 
-      <Searchbar ref="searchbar" @search="handleFetchWeatherData" />
+      <Searchbar v-model:queryStr="searchQuery" @search="handleFetchWeatherData" />
       <Loader v-if="state.loading" />
       <DisplayError v-else-if="state.error">
         <template #error>
@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { reactive, computed, ref } from "vue";
-import { Weather, GetWeatherError, SearchBar } from "./types/weather";
+import { Weather, GetWeatherError } from "./types/weather";
 import Searchbar from "./components/Searchbar.vue";
 import Loader from "./components/Loader.vue";
 import { WELCOME_TITLE, CITY_NOT_FOUND } from "./constants";
@@ -88,7 +88,7 @@ const state = reactive<State>({
   error: null,
 });
 
-const searchbar = ref<SearchBar>({ queryStr: "" });
+const searchQuery = ref<string>("");
 
 const src = computed((): string => {
   return state.weather == null
@@ -124,11 +124,11 @@ async function handleFetchWeatherData(queryStr: string): Promise<void> {
     if (response.ok) {
       state.weather = await response.json();
       state.error = null;
-      searchbar.value.queryStr = "";
+      searchQuery.value = "";
     } else {
       state.error = await response.json();
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(error.message);
   } finally {
     state.loading = false;
