@@ -1,32 +1,9 @@
-<script setup lang="ts">
-import { ref } from "vue";
-
-const queryStr = ref<string>("");
-
-const emit = defineEmits<{
-  (e: "search", queryStr: string, isEnter?: boolean): void;
-}>();
-
-function searchCityWithEnter(event: any) {
-  if (event.key == "Enter") searchCity();
-}
-
-function searchCity(): void {
-  emit("search", queryStr.value);
-  // queryStr.value = "";
-}
-
-defineExpose({
-  queryStr,
-});
-</script>
-
 <template>
   <div class="w-full flex mb-8">
     <input
       type="text"
       class="search-input"
-      v-model="queryStr"
+      v-model="queryModel"
       placeholder="Rechercher par ville"
       @keydown="searchCityWithEnter"
     />
@@ -39,6 +16,30 @@ defineExpose({
     </button>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from "vue";
+
+const props = defineProps<{ queryStr: string }>();
+
+const emit = defineEmits<{
+  (e: "update:queryStr", val: string): void;
+  (e: "search", queryStr: string, isEnter?: boolean): void;
+}>();
+
+const queryModel = computed<string>({
+  get: () => props.queryStr,
+  set: (val: string) => emit("update:queryStr", val),
+});
+
+function searchCityWithEnter(event: KeyboardEvent) {
+  if (event.key === "Enter") searchCity(true);
+}
+
+function searchCity(isEnter = false): void {
+  emit("search", props.queryStr, isEnter);
+}
+</script>
 
 <style scoped>
 .search-input {
